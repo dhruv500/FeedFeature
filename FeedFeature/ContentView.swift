@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    //TODO: Sync data between 2 FeedListView
-    
+    // TODO: Sync data between 2 FeedListView
+
     var body: some View {
         TabView {
             Tab("All", systemImage: "house") {

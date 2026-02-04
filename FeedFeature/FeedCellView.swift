@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct FeedCellView:View {
-    let feed:Feed
-    let likeBtnTap:() -> Void
-    
+struct FeedCellView: View {
+    let feed: Feed
+    let likeBtnTap: () -> Void
+
     var body: some View {
-        HStack(spacing: 24){
+        HStack(spacing: 24) {
             Text(feed.message)
             Spacer()
             HStack {

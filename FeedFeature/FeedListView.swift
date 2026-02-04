@@ -7,35 +7,34 @@
 
 import SwiftUI
 
-struct FeedListView:View {
-    let type:FeedListType
-    @State private var vm:FeedListViewModel = FeedListViewModel()
-    
+struct FeedListView: View {
+    let type: FeedListType
+    @State private var vm: FeedListViewModel = FeedListViewModel()
+
     var body: some View {
-        NavigationStack{
-            Group{
+        NavigationStack {
+            Group {
                 switch vm.state {
                 case .idle:
                     Text("Idle")
                 case .loading:
                     ProgressView("Loading...")
                 case .loaded(let feeds):
-                    if feeds.isEmpty{
+                    if feeds.isEmpty {
                         ContentUnavailableView("No results found!",
                                                systemImage: "magnifyingglass")
-                    }
-                    else{
+                    } else {
                         List {
                             ForEach(feeds) { feed in
                                 FeedCellView(feed: feed) {
-                                    Task{
+                                    Task {
                                         await vm.likePost(id: feed.id)
                                     }
                                 }
                                 .padding()
                             }
-                            
-                            //Paginate
+
+                            // Paginate
                             Color.clear
                                 .frame(height: 32)
                                 .task {
