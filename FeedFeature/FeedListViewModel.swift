@@ -10,17 +10,20 @@ import Foundation
 @Observable
 final class FeedListViewModel {
     private(set) var state: LoadingState<[Feed]> = .idle
-
+    
     private var currentPage: Int = 0
-    private let service: FeedFetchService = FeedFetchService()
-    private let feedRepo:FeedRepository = FeedRepository.shared
+    private let feedRepo:FeedRepository
+    
+    init(feedRepo:FeedRepository){
+        self.feedRepo = feedRepo
+    }
     
     var loadFromCache:Bool{
         state.data != nil
     }
 
     func load(type: FeedListType) async {
-        if loadFromCache{
+        if loadFromCache == false{
             state = .loading
         }
         

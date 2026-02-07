@@ -7,9 +7,33 @@
 
 import SwiftUI
 
-struct FeedListView: View {
+struct FeedListView:View {
     let type: FeedListType
-    @State private var vm: FeedListViewModel = FeedListViewModel()
+    
+    @Environment(\.feedRepo) var feedRepo
+    @State private var vm: FeedListViewModel?
+    
+    var body: some View {
+        Group{
+            if let vm{
+                FeedListContentView(type: type, vm: vm)
+            }
+            else{
+                ProgressView()
+            }
+        }
+        .task {
+            guard vm == nil else{return}
+            vm = FeedListViewModel(feedRepo: feedRepo)
+        }
+        
+    }
+}
+
+fileprivate
+struct FeedListContentView: View {
+    let type: FeedListType
+    var vm: FeedListViewModel
 
     var body: some View {
         NavigationStack {

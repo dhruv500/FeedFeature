@@ -5,23 +5,25 @@
 //  Created by Dhruv Jaiswal on 05/02/26.
 //
 
-import Foundation
+import SwiftUI
+
+extension EnvironmentValues {
+    @Entry var feedRepo = FeedRepository()
+}
 
 actor FeedRepository{
-    static let shared = FeedRepository()
-    
     private var _feeds:[UUID:Feed] = [:]
     private var pageSize:Int = 10
     private let service:FeedFetchService = FeedFetchService()
     
-    private init(){}
-    
     func fetch(type: FeedListType,page:Int,fromCache:Bool) async -> [Feed] {
         if fromCache{
+            print("Fetching from cache for page:\(page)")
             let feeds = fetchCachedFeeds(for: type, till: page)
             return feeds
         }
         else{
+            print("Fetching from network for page:\(page)")
             return await fetch(type: type, page: page)
         }
     }

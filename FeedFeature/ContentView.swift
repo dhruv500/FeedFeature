@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    // TODO: Sync data between 2 FeedListView
-
+    @State private var feedRepo = FeedRepository()
+    
     var body: some View {
         TabView {
             Tab("All", systemImage: "house") {
@@ -19,6 +19,7 @@ struct ContentView: View {
                 FeedListView(type: .liked)
             }
         }
+        .environment(\.feedRepo, feedRepo)
     }
 }
 
